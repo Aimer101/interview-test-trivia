@@ -29,7 +29,12 @@ export function UserForm() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <Button variant="contained" onClick={enterGame}>
+
+        <Button
+          variant="contained"
+          onClick={enterGame}
+          disabled={username ? false : true}
+        >
           Enter game
         </Button>
       </Stack>

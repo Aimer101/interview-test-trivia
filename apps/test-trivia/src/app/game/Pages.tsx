@@ -8,7 +8,6 @@ const StyledPages = styled.div``;
 
 export function Pages() {
   const state = useStatus();
-  console.log('state', state.value, state.context);
   return (
     <StyledPages>
       {state?.matches('idle') && <UserForm />}

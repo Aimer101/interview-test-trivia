@@ -6,6 +6,7 @@ import {
   createAnswer,
 } from '@finnoconsult-test-trivia/api-interfaces';
 import { getQuestions } from '@finnoconsult-test-trivia/questions';
+import axios from 'axios';
 
 interface AnswerEventData extends Question {
   answer: string;
@@ -25,16 +26,47 @@ export interface MachineContext {
   user?: UserData;
 }
 
-const sendUserToBackend = async () => {
-  console.warn('TODO: implement sendUserToBackend!');
+const sendUserToBackend = async (context: any) => {
+  const { user } = context;
+
+  try {
+    const res = await axios.post('http://localhost:3333/api/login', {
+      name: user.username,
+    });
+    const { accessToken } = res.data;
+    window.localStorage.setItem('token', accessToken);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const loadQuestions = async () => {
   return await getQuestions();
 };
 
-const sendResultToBackend = async () => {
-  console.warn('TODO: implement sendResultToBackend!');
+const sendResultToBackend = async (context: any) => {
+  const token = window.localStorage.getItem('token');
+  let score = 0;
+
+  context.answers.map(
+    (i: { answer: string; correct: boolean }) => i.correct && score++
+  );
+  score = score / context.answers.length;
+  try {
+    axios.put(
+      'http://localhost:3333/api/score',
+      {
+        newScore: score * 100,
+      },
+      {
+        headers: {
+          token: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const gameState = createMachine<MachineContext, MachineEvent>(
@@ -110,7 +142,6 @@ export const gameState = createMachine<MachineContext, MachineEvent>(
       ),
       setUser: assign(
         (_context: MachineContext, { type: _type, ...user }: any) => {
-          // console.log('setUser', _type, user);
           return { user };
         }
       ),
