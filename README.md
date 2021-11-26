@@ -5,7 +5,8 @@
 
 # GETTING STARTED
 
-- After clone the project, head to `apps/api/src/main.ts`, make sure to change the credential according to your local mysql credential
+- After clone the project, run `npm install`. 
+- Next, head to `apps/api/src/main.ts`, make sure to change the credential according to your local mysql credential
 
   ![image](https://user-images.githubusercontent.com/60194292/143549112-0c6cde86-f641-41f1-8b7b-9c2c250a644a.png)
 
@@ -30,7 +31,7 @@
 - This route will be accepting a headers (JWT token stored in local storage) and a body (updated score)
 - user's credential will then be verify via JWT
 
-### Additional feature to front end
+# Additional feature to front end
 
 ![image](https://user-images.githubusercontent.com/60194292/143551115-28efc0cf-86cb-4842-94c9-71f3105f358d.png)
 
